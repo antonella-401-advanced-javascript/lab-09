@@ -42,7 +42,6 @@
         "ignoreEOLComments": true
       }
     ],
-    "new-cap": "error",
     "no-redeclare": [
       "error",
       {

@@ -48,26 +48,27 @@ describe('tours api', () => {
     return postTour(testTour).then(tour => {
       expect(tour).toMatchInlineSnapshot(
         {
-          // _id: expect.any(String),
-          // __v: 0,
-          // launchDate: expect.any(Date),
-          // stops: [{
-          //   _id: expect.any(String)
-          // }]
+          _id: expect.any(String),
+          launchDate: expect.any(String),
+          stops: [
+            {
+              _id: expect.any(String)
+            }
+          ]
         },
         `
         Object {
           "__v": 0,
-          "_id": "5d953194b8fb854cba2c3605",
+          "_id": Any<String>,
           "activities": Array [
             "Test1",
             "Test2",
             "Test3",
           ],
-          "launchDate": "2019-10-02T23:24:04.250Z",
+          "launchDate": Any<String>,
           "stops": Array [
             Object {
-              "_id": "5d953194b8fb854cba2c3606",
+              "_id": Any<String>,
             },
           ],
           "title": "Testing Tour",
