@@ -20,15 +20,6 @@ describe('tours api', () => {
     return db.dropCollection('tours');
   });
 
-  // const location = {
-  //   name: 'Testing location',
-  //   address: '97230'
-  // };
-
-  // const attendance = {
-  //   attendance: 2
-  // };
-
   const testTour = {
     title: 'Testing Tour',
     activities: ['Test1', 'Test2', 'Test3'],
@@ -39,6 +30,10 @@ describe('tours api', () => {
   const testLocation = {
     name: 'Rontoms',
     address: '600 E Burnside St, Portland, OR'
+  };
+
+  const testAttendance = {
+    attendance: 24
   };
 
   function postTour(tour) {
@@ -149,6 +144,26 @@ describe('tours api', () => {
           }
         `
         );
+      });
+  });
+
+  it('updates stop attendance', () => {
+    return postTour(testTour)
+      .then(tour => {
+        return request
+          .post(`/api/tours/${tour._id}/stops`)
+          .send(testLocation)
+          .expect(200)
+          .then(out => {
+            const stops = out.body[0];
+            return request
+              .put(`/api/tours/${tour._id}/stops/${stops._id}/attendance`)
+              .send(testAttendance)
+              .expect(200)
+              .then(({ body }) => {
+                expect(body[0].attendance).toBe(24);
+              });
+          });
       });
   });
 });
