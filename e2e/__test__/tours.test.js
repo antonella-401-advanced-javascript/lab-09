@@ -77,4 +77,47 @@ describe('tours api', () => {
       );
     });
   });
+
+  it('gets all tours', () => {
+    return Promise.all([
+      postTour(testTour),
+      postTour(testTour),
+      postTour(testTour)
+    ])
+      .then(() => {
+        return request.get('/api/tours').expect(200);
+      })
+      .then(({ body }) => {
+        expect(body.length).toBe(3);
+        expect(body[0]).toMatchInlineSnapshot(
+          {
+            _id: expect.any(String),
+            launchDate: expect.any(String),
+            stops: [
+              {
+                _id: expect.any(String)
+              }
+            ]
+          },
+          `
+          Object {
+            "__v": 0,
+            "_id": Any<String>,
+            "activities": Array [
+              "Test1",
+              "Test2",
+              "Test3",
+            ],
+            "launchDate": Any<String>,
+            "stops": Array [
+              Object {
+                "_id": Any<String>,
+              },
+            ],
+            "title": "Testing Tour",
+          }
+        `
+        );
+      });
+  });
 });
