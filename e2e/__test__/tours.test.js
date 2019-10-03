@@ -166,4 +166,21 @@ describe('tours api', () => {
           });
       });
   });
+
+  it('deletes a stop', () => {
+    return postTour(testTour)
+      .then(tour => {
+        return request
+          .post(`/api/tours/${tour._id}/stops`)
+          .send(testLocation)
+          .expect(200)
+          .then(out => {
+            const stops = out.body[1];
+            return request
+              .delete(`/api/tours/${tour._id}/stops/${stops._id}`)
+              .send(tour._id, stops._id)
+              .expect(200);
+          });
+      });
+  });
 });
