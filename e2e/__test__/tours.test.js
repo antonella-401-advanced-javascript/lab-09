@@ -36,6 +36,11 @@ describe('tours api', () => {
     stops: [{}]
   };
 
+  const testLocation = {
+    name: 'Rontoms',
+    address: '600 E Burnside St, Portland, OR'
+  };
+
   function postTour(tour) {
     return request
       .post('/api/tours')
@@ -115,6 +120,32 @@ describe('tours api', () => {
               },
             ],
             "title": "Testing Tour",
+          }
+        `
+        );
+      });
+  });
+
+  it('adds a stop to the tour', () => {
+    return postTour(testTour)
+      .then(tour => {
+        return request
+          .post(`/api/tours/${tour._id}/stops`)
+          .send(testLocation)
+          .expect(200)
+          .then(body => {
+            return [body, testLocation, testLocation];
+          });
+      })
+      .then(out => {
+        const stop = out[0].body[1];
+        expect(stop).toMatchInlineSnapshot(
+          {
+            _id: expect.any(String)
+          },
+          `
+          Object {
+            "_id": Any<String>,
           }
         `
         );
